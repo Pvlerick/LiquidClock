@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TimeMachine
+namespace LiquidClock
 {
-    public sealed partial class TimeMachine
-    {
+
         public class Advancer
         {
             private readonly SortedDictionary<int, Action> actions;
@@ -65,5 +64,4 @@ namespace TimeMachine
                 AdvanceBy(1);
             }
         }
-    }
 }

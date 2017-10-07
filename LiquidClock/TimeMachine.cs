@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TimeMachine
+namespace LiquidClock
 {
-    public sealed partial class TimeMachine
+    public sealed class TimeMachine
     {
         private readonly SortedDictionary<int, Action> actions = new SortedDictionary<int, Action>();
 

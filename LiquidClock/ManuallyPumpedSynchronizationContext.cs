@@ -2,10 +2,8 @@
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace TimeMachine
+namespace LiquidClock
 {
-    public sealed partial class TimeMachine
-    {
         public sealed class ManuallyPumpedSynchronizationContext : SynchronizationContext
         {
             private readonly BlockingCollection<Tuple<SendOrPostCallback, object>> callbacks = 
@@ -26,5 +24,4 @@ namespace TimeMachine
                 }
             }
         }
-    }
 }
