@@ -9,12 +9,39 @@ namespace LiquidClock
     {
         private readonly SortedDictionary<int, Action> actions = new SortedDictionary<int, Action>();
 
+        /// <summary>
+        /// Creates a <see cref="Task"/> of <typeparamref name="T"/> that will complete successfuly when the <see cref="TimeMachine"/> is advanced to the given <paramref name="time"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="time"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public Task<T> ScheduleSuccess<T>(int time, T value) => AddAction<T>(time, tcs => tcs.SetResult(value));
 
+        /// <summary>
+        /// Creates a <see cref="Task"/> of <typeparamref name="T"/> that will fault when the <see cref="TimeMachine"/> is advanced to the given <paramref name="time"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="time"></param>
+        /// <param name="exception"></param>
+        /// <returns></returns>
         public Task<T> ScheduleFault<T>(int time, Exception exception) => AddAction<T>(time, tcs => tcs.SetException(exception));
 
+        /// <summary>
+        /// Creates a <see cref="Task"/> of <typeparamref name="T"/> that will fault when the <see cref="TimeMachine"/> is advanced to the given <paramref name="time"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="time"></param>
+        /// <param name="exceptions"></param>
+        /// <returns></returns>
         public Task<T> ScheduleFault<T>(int time, IEnumerable<Exception> exceptions) => AddAction<T>(time, tcs => tcs.SetException(exceptions));
 
+        /// <summary>
+        /// Creates a <see cref="Task"/> of <typeparamref name="T"/> that will be maked as cancelled when the <see cref="TimeMachine"/> is advanced to the given <paramref name="time"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="time"></param>
+        /// <returns></returns>
         public Task<T> ScheduleCancellation<T>(int time) => AddAction<T>(time, tcs => tcs.SetCanceled());
 
         private Task<T> AddAction<T>(int time, Action<TaskCompletionSource<T>> action)
@@ -31,17 +58,20 @@ namespace LiquidClock
             return source.Task;
         }
 
-        public void ExecuteInContext(Action<Advancer> action) =>
-            ExecuteInContext(new ManuallyPumpedSynchronizationContext(), action);
-
-        public void ExecuteInContext(ManuallyPumpedSynchronizationContext context, Action<Advancer> action)
+        /// <summary>
+        /// Execute the given action in the <see cref="TimeMachine"/>. Use the given <see cref="Advancer"/> to advance time and observe the tasks being completed/faulted/cancelled.
+        /// </summary>
+        /// <param name="action"></param>
+        public void ExecuteInContext(Action<Advancer> action)
         {
+            var temporaryContext = new ManuallyPumpedSynchronizationContext();
+
             SynchronizationContext originalContext = SynchronizationContext.Current;
 
             try
             {
-                SynchronizationContext.SetSynchronizationContext(context);
-                Advancer advancer = new Advancer(actions, context);
+                SynchronizationContext.SetSynchronizationContext(temporaryContext);
+                Advancer advancer = new Advancer(actions, temporaryContext);
                 // This is where the tests assertions etc will go...
                 action(advancer);
             }

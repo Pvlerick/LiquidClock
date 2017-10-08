@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace LiquidClock
 {
-        public sealed class ManuallyPumpedSynchronizationContext : SynchronizationContext
+        internal sealed class ManuallyPumpedSynchronizationContext : SynchronizationContext
         {
             private readonly BlockingCollection<Tuple<SendOrPostCallback, object>> callbacks = 
                 new BlockingCollection<Tuple<SendOrPostCallback, object>>();

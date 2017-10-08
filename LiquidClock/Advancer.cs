@@ -4,8 +4,7 @@ using System.Linq;
 
 namespace LiquidClock
 {
-
-        public class Advancer
+        public sealed class Advancer
         {
             private readonly SortedDictionary<int, Action> actions;
             private readonly ManuallyPumpedSynchronizationContext context;
@@ -29,16 +28,16 @@ namespace LiquidClock
 
                 List<int> timesToRemove = new List<int>();
 
-                foreach (var entry in actions.TakeWhile(e => e.Key <= targetTime))
+                foreach (var entry in this.actions.TakeWhile(e => e.Key <= targetTime))
                 {
                     timesToRemove.Add(entry.Key);
                     entry.Value();
-                    context.PumpAll();
+                    this.context.PumpAll();
                 }
 
                 foreach (int key in timesToRemove)
                 {
-                    actions.Remove(key);
+                    this.actions.Remove(key);
                 }
 
                 this.Time = targetTime;
@@ -53,7 +52,7 @@ namespace LiquidClock
                 if (amount <= 0)
                     throw new ArgumentOutOfRangeException(nameof(amount), "Can only advance time forwards");
 
-                AdvanceTo(this.Time + amount);
+                this.AdvanceTo(this.Time + amount);
             }
 
             /// <summary>
@@ -61,7 +60,7 @@ namespace LiquidClock
             /// </summary>
             public void Advance()
             {
-                AdvanceBy(1);
+                this.AdvanceBy(1);
             }
         }
 }
