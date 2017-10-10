@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace LiquidClock.Tests
@@ -18,8 +19,7 @@ namespace LiquidClock.Tests
                 Assert.False(scheduledSuccess.IsCompleted);
                 advancer.Advance();
                 Assert.True(scheduledSuccess.IsCompleted);
-                Assert.False(scheduledSuccess.IsFaulted);
-                Assert.False(scheduledSuccess.IsCanceled);
+                Assert.Equal(TaskStatus.RanToCompletion, scheduledSuccess.Status);
                 Assert.Equal("Bar", scheduledSuccess.Result);
             });
             // Teardown 
@@ -39,7 +39,7 @@ namespace LiquidClock.Tests
                 Assert.False(scheduledFault.IsCompleted);
                 advancer.Advance();
                 Assert.True(scheduledFault.IsCompleted);
-                Assert.True(scheduledFault.IsFaulted);
+                Assert.Equal(TaskStatus.Faulted, scheduledFault.Status);
                 Assert.Equal(scheduledFault.Exception.InnerExceptions[0], ex);
             });
             // Teardown 
@@ -60,7 +60,7 @@ namespace LiquidClock.Tests
                 Assert.False(scheduledFault.IsCompleted);
                 advancer.Advance();
                 Assert.True(scheduledFault.IsCompleted);
-                Assert.True(scheduledFault.IsFaulted);
+                Assert.Equal(TaskStatus.Faulted, scheduledFault.Status);
                 Assert.Equal(scheduledFault.Exception.InnerExceptions[0], ex1);
                 Assert.Equal(scheduledFault.Exception.InnerExceptions[1], ex2);
             });
@@ -73,14 +73,14 @@ namespace LiquidClock.Tests
             // Fixture setup
             var sut = new TimeMachine();
             // Exercise system
-            var scheduledSuccess = sut.ScheduleCancellation<string>(1);
+            var scheduledCancellation = sut.ScheduleCancellation<string>(1);
             // Verify outcome
             sut.ExecuteInContext(advancer =>
             {
-                Assert.False(scheduledSuccess.IsCompleted);
+                Assert.False(scheduledCancellation.IsCompleted);
                 advancer.Advance();
-                Assert.True(scheduledSuccess.IsCompleted);
-                Assert.True(scheduledSuccess.IsCanceled);
+                Assert.True(scheduledCancellation.IsCompleted);
+                Assert.Equal(TaskStatus.Canceled, scheduledCancellation.Status);
             });
             // Teardown 
         }

@@ -36,9 +36,7 @@ namespace LiquidClock
                 }
 
                 foreach (int key in timesToRemove)
-                {
                     this.actions.Remove(key);
-                }
 
                 this.Time = targetTime;
             }
@@ -58,9 +56,6 @@ namespace LiquidClock
             /// <summary>
             /// Advances the clock by one time unit.
             /// </summary>
-            public void Advance()
-            {
-                this.AdvanceBy(1);
-            }
+            public void Advance() => this.AdvanceBy(1);
         }
 }

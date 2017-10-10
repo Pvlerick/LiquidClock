@@ -17,11 +17,8 @@ namespace LiquidClock
 
             public void PumpAll()
             {
-                Tuple<SendOrPostCallback, object> callback;
-                while (callbacks.TryTake(out callback))
-                {
+                while (callbacks.TryTake(out Tuple<SendOrPostCallback, object> callback))
                     callback.Item1(callback.Item2);
-                }
             }
         }
 }
