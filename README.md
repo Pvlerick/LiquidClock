@@ -1,7 +1,7 @@
 # LiquidClock
 A small utility to test asynchronous code in .NET
 
-Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/mpdke63xfxqnisth?svg=true)](htt
+Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/mpdke63xfxqnisth?svg=true)](https://ci.appveyor.com/project/Pvlerick/liquidclock)
 
 ## Introduction
 This utility is based on Jon Skeet's TimeMachine that can be found here: https://github.com/jskeet/DemoCode/tree/master/AsyncIntro/Code/Testing.NUnit
