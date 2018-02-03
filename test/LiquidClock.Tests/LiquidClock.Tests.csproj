@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LiquidClock\LiquidClock.csproj" />
+    <ProjectReference Include="..\..\src\LiquidClock\LiquidClock.csproj" />
   </ItemGroup>
 
 </Project>
