@@ -9,16 +9,12 @@ namespace LiquidClock
         private readonly BlockingCollection<Tuple<SendOrPostCallback, object>> callbacks =
             new BlockingCollection<Tuple<SendOrPostCallback, object>>();
 
-        public override void Post(SendOrPostCallback callback, object state)
-        {
+        public override void Post(SendOrPostCallback callback, object state) =>
             callbacks.Add(Tuple.Create(callback, state));
-        }
 
-        public override void Send(SendOrPostCallback d, object state)
-        {
+        public override void Send(SendOrPostCallback d, object state) =>
             throw new NotSupportedException(
                 $"Synchronous operations not supported on {nameof(ManuallyPumpedSynchronizationContext)}");
-        }
 
         public void PumpAll()
         {

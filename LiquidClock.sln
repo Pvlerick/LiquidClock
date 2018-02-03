@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiquidClock", "LiquidClock\LiquidClock.csproj", "{BDB25E27-0FF2-447E-A3FA-31884154EAA3}"
 EndProject
@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EBF09B1A-791A-4CA2-AA0F-5C2445A2FEE3}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection

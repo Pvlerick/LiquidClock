@@ -56,17 +56,11 @@ namespace LiquidClock
         /// <summary>
         ///     Advances the clock by one time unit.
         /// </summary>
-        public void Advance()
-        {
-            AdvanceBy(1);
-        }
+        public void Advance() => AdvanceBy(1);
 
         /// <summary>
         ///     Advanced the clock passed the last scheduled task so that they are all completed.
         /// </summary>
-        public void AdvanceToEnd()
-        {
-            AdvanceTo(actions.Last().Key);
-        }
+        public void AdvanceToEnd() => AdvanceTo(actions.Last().Key);
     }
 }
