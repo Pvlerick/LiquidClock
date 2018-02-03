@@ -1,6 +1,11 @@
-﻿version: 1.0.{build}
+﻿version: {build}
 build:
   verbosity: minimal
 
 build_script:
 - ps: ./build.ps1
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: oy2kagdprjgpejgl253ae4awl6nupudurgun6jwvm2gumi
