@@ -8,9 +8,11 @@ build:
 build_script:
 - ps: ./build.ps1
 
+artifacts:
+  - path: 'src\**\Release\*.nupkg'
+
 deploy:
   provider: NuGet
-  artifact: /.*\.nupkg/
   on:
     branch: master
     appveyor_repo_tag: true
