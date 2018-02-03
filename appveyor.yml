@@ -1,4 +1,7 @@
-﻿version: {build}
+﻿version: '{build}.{branch}'
+
+image: Visual Studio 2017
+
 build:
   verbosity: minimal
 
@@ -7,5 +10,9 @@ build_script:
 
 deploy:
   provider: NuGet
+  artifact: /.*\.nupkg/
+  on:
+    branch: master
+    appveyor_repo_tag: true
   api_key:
-    secure: oy2kagdprjgpejgl253ae4awl6nupudurgun6jwvm2gumi
+    secure: Fk0aeBW94MCLaMJoq6CB3nQzQu/f0/6Sss0ycZxmh8emZe/zMsehdn+5k75pgb8p

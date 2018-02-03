@@ -6,11 +6,11 @@ Task("Build")
   .DoesForEach(GetFiles("src/**/*.*proj"), file =>
   {
     DotNetCoreClean(file.FullPath);
-    GitVersion(new GitVersionSettings {
-        UpdateAssemblyInfo = true
-    });
     DotNetCoreRestore(file.FullPath);
-    DotNetCoreBuild(file.FullPath);
+    DotNetCoreBuild(file.FullPath, new DotNetCoreBuildSettings
+    {
+      Configuration = "Release"
+    });
   });
 
 Task("Test")
@@ -27,6 +27,7 @@ Task("Pack")
       file.FullPath, 
       new DotNetCorePackSettings()
       {
+        Configuration = "Release",
         ArgumentCustomization = args => args.Append("/p:Version=" + GitVersion().NuGetVersion)
       });
   });
