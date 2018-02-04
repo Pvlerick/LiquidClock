@@ -70,30 +70,6 @@ namespace LiquidClock.Tests
         }
 
         [Fact]
-        public void ScheduleFault_MultipleExceptions()
-        {
-            // Fixture setup
-            var ex1 = new Exception();
-            var ex2 = new Exception();
-            var sut = new TimeMachine();
-            var result = sut.ScheduleFault<string>(1, new[] {ex1, ex2});
-            var mock = new Mock<ITestEngine>();
-            mock.Setup(s => s.ReturnsString()).Returns(result);
-            var subject = mock.Object;
-            // Exercise system & Verify outcome
-            sut.ExecuteInContext(advancer =>
-            {
-                var task = subject.ReturnsString();
-                Assert.False(task.IsCompleted);
-                advancer.Advance();
-                Assert.True(task.IsFaulted);
-                Assert.Same(ex1, task.Exception.InnerExceptions[0]);
-                Assert.Same(ex2, task.Exception.InnerExceptions[1]);
-            });
-            // Teardown 
-        }
-
-        [Fact]
         public void ScheduleFault_SingleException()
         {
             // Fixture setup
@@ -111,6 +87,30 @@ namespace LiquidClock.Tests
                 advancer.Advance();
                 Assert.True(task.IsFaulted);
                 Assert.Same(ex, task.Exception.InnerException);
+            });
+            // Teardown 
+        }
+
+        [Fact]
+        public void ScheduleFault_MultipleExceptions()
+        {
+            // Fixture setup
+            var ex1 = new Exception();
+            var ex2 = new Exception();
+            var sut = new TimeMachine();
+            var result = sut.ScheduleFault<string>(1, ex1, ex2 );
+            var mock = new Mock<ITestEngine>();
+            mock.Setup(s => s.ReturnsString()).Returns(result);
+            var subject = mock.Object;
+            // Exercise system & Verify outcome
+            sut.ExecuteInContext(advancer =>
+            {
+                var task = subject.ReturnsString();
+                Assert.False(task.IsCompleted);
+                advancer.Advance();
+                Assert.True(task.IsFaulted);
+                Assert.Same(ex1, task.Exception.InnerExceptions[0]);
+                Assert.Same(ex2, task.Exception.InnerExceptions[1]);
             });
             // Teardown 
         }
@@ -152,6 +152,50 @@ namespace LiquidClock.Tests
                 Assert.False(task.IsCompleted);
                 advancer.Advance();
                 Assert.True(task.IsCompletedSuccessfully);
+            });
+            // Teardown 
+        }
+
+        [Fact]
+        public void ScheduleFault_NonGeneric()
+        {
+            // Fixture setup
+            var sut = new TimeMachine();
+            var ex = new Exception();
+            var result = sut.ScheduleFault(1, ex);
+            var mock = new Mock<ITestEngine>();
+            mock.Setup(s => s.DoSomething()).Returns(result);
+            var subject = mock.Object;
+            // Exercise system & Verify outcome
+            sut.ExecuteInContext(advancer =>
+            {
+                var task = subject.DoSomething();
+                Assert.False(task.IsCompleted);
+                advancer.Advance();
+                Assert.True(task.IsCompleted);
+                Assert.True(task.IsFaulted);
+                Assert.Same(ex, task.Exception.InnerException);
+            });
+            // Teardown 
+        }
+
+        [Fact]
+        public void ScheduleCancellation_NonGeneric()
+        {
+            // Fixture setup
+            var sut = new TimeMachine();
+            var result = sut.ScheduleCancellation(1);
+            var mock = new Mock<ITestEngine>();
+            mock.Setup(s => s.DoSomething()).Returns(result);
+            var subject = mock.Object;
+            // Exercise system & Verify outcome
+            sut.ExecuteInContext(advancer =>
+            {
+                var task = subject.DoSomething();
+                Assert.False(task.IsCompleted);
+                advancer.Advance();
+                Assert.True(task.IsCompleted);
+                Assert.True(task.IsCanceled);
             });
             // Teardown 
         }
