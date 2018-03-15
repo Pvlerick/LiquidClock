@@ -7,4 +7,16 @@
     <TreatSpecificWarningsAsErrors />
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Description>A library to ease testing async code in .NET</Description>
+    <Authors>Philippe Vlérick</Authors>
+    <RootNamespace>LiquidClock</RootNamespace>
+    <PackageId>LiquidClock</PackageId>
+    <PackageTags>async;unit testing</PackageTags>
+    <PackageProjectUrl>https://github.com/Pvlerick/LiquidClock</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Pvlerick/LiquidClock/master/LICENSE</PackageLicenseUrl>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+  </PropertyGroup>
+  
 </Project>
