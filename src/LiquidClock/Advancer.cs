@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace LiquidClock
 {
+    /// <summary>
+    /// This class allows advancing the time thus completing tasks that were scheduled in the <see cref="TimeMachine"/>
+    /// </summary>
     public sealed class Advancer
     {
         private readonly SortedDictionary<int, Action> actions;
@@ -18,7 +21,7 @@ namespace LiquidClock
         public int Time { get; private set; }
 
         /// <summary>
-        ///     Advances to the given target time.
+        /// Advances to the given target time.
         /// </summary>
         /// <param name="targetTime"></param>
         public void AdvanceTo(int targetTime)
@@ -42,7 +45,7 @@ namespace LiquidClock
         }
 
         /// <summary>
-        ///     Advances the clock by the given number of arbitrary time units
+        /// Advances the clock by the given number of arbitrary time units
         /// </summary>
         /// <param name="amount"></param>
         public void AdvanceBy(int amount)
@@ -54,12 +57,12 @@ namespace LiquidClock
         }
 
         /// <summary>
-        ///     Advances the clock by one time unit.
+        /// Advances the clock by one time unit.
         /// </summary>
         public void Advance() => AdvanceBy(1);
 
         /// <summary>
-        ///     Advanced the clock passed the last scheduled task so that they are all completed.
+        /// Advances the clock past the last scheduled task so that they are all completed.
         /// </summary>
         public void AdvanceToEnd() => AdvanceTo(actions.Last().Key);
     }
