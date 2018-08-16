@@ -37,4 +37,4 @@ Task("Default")
   .IsDependentOn("Test")
   .IsDependentOn("Pack");
 
-RunTarget("Default");
+RunTarget(target);
