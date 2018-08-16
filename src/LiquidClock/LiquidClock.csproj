@@ -17,6 +17,8 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/Pvlerick/LiquidClock/master/LICENSE</PackageLicenseUrl>
     <IncludeSource>True</IncludeSource>
     <IncludeSymbols>True</IncludeSymbols>
+    <RepositoryUrl>https://github.com/Pvlerick/LiquidClock</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   
 </Project>
